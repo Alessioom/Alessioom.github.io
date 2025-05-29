@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Interfaccia Recruiter - Generatore Annuncio</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+        .container { max-width: 500px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+        h2 { text-align: center; }
+        label { display: block; margin-top: 15px; }
+        input, textarea, button { width: 100%; padding: 8px; margin-top: 5px; border-radius: 4px; border: 1px solid #ccc; }
+        button { background: #0078d4; color: #fff; border: none; cursor: pointer; margin-top: 20px;}
+        button:hover { background: #005fa3; }
+        .chat-box { background: #f9f9f9; border: 1px solid #ddd; border-radius: 4px; padding: 15px; margin-top: 20px; min-height: 80px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Generatore Annuncio Aziendale</h2>
+        <form id="recruiterForm">
+            <label for="companyName">Nome Azienda:</label>
+            <input type="text" id="companyName" name="companyName" required>
+
+            <label for="jobRole">Ruolo Ricercato:</label>
+            <input type="text" id="jobRole" name="jobRole" required>
+
+            <label for="jobDetails">Dettagli (opzionale):</label>
+            <textarea id="jobDetails" name="jobDetails" rows="3"></textarea>
+
+            <button type="submit">Genera Annuncio</button>
+        </form>
+        <div class="chat-box" id="chatBox">
+            <!-- Qui apparirà l'annuncio generato -->
+        </div>
+    </div>
+    <script>
+        document.getElementById('recruiterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const company = document.getElementById('companyName').value.trim();
+            const role = document.getElementById('jobRole').value.trim();
+            const details = document.getElementById('jobDetails').value.trim();
+
+            let announcement = `👋 Ciao! Sono il recruiter di <b>${company}</b>.<br>`;
+            announcement += `Stiamo cercando un/a <b>${role}</b>.`;
+            if (details) {
+                announcement += `<br>Dettagli posizione: ${details}`;
+            }
+            announcement += `<br>Se sei interessato/a, crea il tuo CV per noi!`;
+
+            document.getElementById('chatBox').innerHTML = announcement;
+
+            // Salva l'annuncio su localStorage
+            let annunci = JSON.parse(localStorage.getItem('annunci_recruiter') || '[]');
+            annunci.push(announcement);
+            localStorage.setItem('annunci_recruiter', JSON.stringify(annunci));
+        });
+    </script>
+</body>
+</html>

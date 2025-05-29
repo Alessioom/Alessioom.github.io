@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Recruiter</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .container {
+      background: rgba(255,255,255,0.10);
+      border-radius: 22px;
+      box-shadow: 0 4px 32px #0003;
+      padding: 38px 28px 32px 28px;
+      max-width: 600px;
+      width: 100%;
+      margin-top: 48px;
+      text-align: center;
+      position: relative;
+    }
+    h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, #ffb347, #ffcc33, #f7971e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 4px 24px #0006;
+      margin-bottom: 10px;
+      letter-spacing: 1.5px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: #ffe082;
+      margin-bottom: 28px;
+      margin-top: 0;
+      letter-spacing: 0.5px;
+    }
+    form {
+      background: rgba(255,255,255,0.13);
+      border-radius: 16px;
+      padding: 24px 18px 18px 18px;
+      margin-bottom: 32px;
+      box-shadow: 0 2px 12px #0002;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: stretch;
+    }
+    input, textarea {
+      padding: 12px;
+      border-radius: 30px;
+      border: none;
+      font-size: 1.08rem;
+      background: rgba(255,255,255,0.18);
+      color: #1e3c72;
+      outline: none;
+      box-shadow: 0 2px 8px #0001;
+      resize: none;
+      margin-bottom: 0;
+    }
+    textarea { border-radius: 18px; min-height: 60px; }
+    .main-btn {
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #1e3c72;
+      border: none;
+      border-radius: 40px;
+      padding: 14px 0;
+      font-size: 1.1rem;
+      font-weight: 700;
+      box-shadow: 0 4px 24px #0003;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.3s;
+    }
+    .main-btn:hover, .main-btn:focus {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 8px 32px #0004;
+      background: linear-gradient(90deg, #f7971e 0%, #ffb347 100%);
+    }
+    .annunci-section {
+      margin-top: 10px;
+      text-align: left;
+    }
+    .annunci-title {
+      font-size: 1.25rem;
+      color: #ffe082;
+      margin-bottom: 10px;
+      margin-top: 0;
+      letter-spacing: 0.5px;
+      text-align: left;
+    }
+    .annuncio-card {
+      background: rgba(255,255,255,0.18);
+      border-radius: 18px;
+      margin: 18px 0;
+      padding: 22px 24px 18px 24px;
+      box-shadow: 0 2px 12px #0002;
+      color: #fff;
+      font-size: 1.08rem;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .annuncio-card:hover {
+      box-shadow: 0 6px 24px #0004;
+      transform: translateY(-2px) scale(1.01);
+    }
+    .annuncio-actions {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      display: flex;
+      gap: 10px;
+    }
+    .elimina-btn, .modifica-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.4rem;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .elimina-btn {
+      color: #ff5252;
+    }
+    .elimina-btn:hover {
+      background: #ff5252;
+      color: #fff;
+      transform: scale(1.1);
+    }
+    .modifica-btn {
+      color: #ffb347;
+    }
+    .modifica-btn:hover {
+      background: #ffb347;
+      color: #1e3c72;
+      transform: scale(1.1);
+    }
+    .annuncio-titolo {
+      font-size: 1.18rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: #ffe082;
+      letter-spacing: 0.5px;
+    }
+    .annuncio-data {
+      font-size: 0.93rem;
+      color: #b2dfdb;
+      margin-bottom: 4px;
+    }
+    .logout-btn {
+      position: absolute;
+      top: 18px;
+      right: 32px;
+      background: #fff;
+      color: #1e3c72;
+      border: none;
+      border-radius: 30px;
+      padding: 8px 22px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #0001;
+      transition: background 0.2s;
+    }
+    .logout-btn:hover {
+      background: #ffb347;
+      color: #fff;
+    }
+    @media (max-width: 700px) {
+      .container { padding: 18px 6px 18px 6px; }
+      h1 { font-size: 1.3rem; }
+      .annuncio-card { padding: 16px 8px 12px 8px; }
+      .annunci-title { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+  <div class="container">
+    <h1>Area Annunci</h1>
+    <div class="subtitle">Crea, modifica o elimina i tuoi annunci di lavoro in pochi click.</div>
+    <form id="annuncioForm">
+      <input type="text" name="titolo" placeholder="Titolo annuncio" maxlength="80" required />
+      <textarea name="descrizione" placeholder="Descrizione breve" maxlength="400" required></textarea>
+      <button class="main-btn" type="submit">+ Pubblica Annuncio</button>
+    </form>
+    <button class="main-btn" type="button" id="annuncioAIButton" style="margin-top:10px;">🤖 Crea Annuncio con IA</button>
+    
+    <div class="annunci-section">
+      <div class="annunci-title">I tuoi annunci</div>
+      <div id="annunciList"></div>
+    </div>
+  </div>
+  <div id="aiModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,60,114,0.85);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:rgba(255,255,255,0.97);border-radius:18px;max-width:420px;width:95vw;padding:28px 18px;box-shadow:0 8px 40px #0007;position:relative;">
+      <button onclick="chiudiAIModal()" style="position:absolute;top:10px;right:18px;font-size:1.3em;background:none;border:none;cursor:pointer;">✖</button>
+      <h2 style="color:#1e3c72;margin-top:0;">Annuncio con AI</h2>
+      <div id="aiChatLog" style="min-height:120px;max-height:220px;overflow-y:auto;margin-bottom:10px;"></div>
+      <div style="display:flex;gap:8px;">
+        <input id="aiChatInput" type="text" placeholder="Scrivi qui..." style="flex:1;padding:10px;border-radius:20px;border:1px solid #ccc;">
+        <button onclick="inviaAIMsg()" style="padding:10px 18px;border-radius:20px;background:#ffb347;color:#1e3c72;font-weight:700;border:none;">Invia</button>
+      </div>
+      <button id="usaAnnuncioAI" style="display:none;margin-top:14px;" class="main-btn" type="button">Usa questo annuncio</button>
+    </div>
+  </div>
+  <script>
+    function logout() {
+      fetch('backend/logout.php').then(() => window.location.href = 'index.html');
+    }
+
+    async function caricaAnnunci() {
+      const res = await fetch('backend/annunci.php?action=miei');
+      const data = await res.json();
+      const container = document.getElementById('annunciList');
+      container.innerHTML = '';
+      if (!data.length) {
+        container.innerHTML = '<p style="color:#ffe082;">Nessun annuncio pubblicato.</p>';
+        return;
+      }
+      data.forEach(a => {
+        const div = document.createElement('div');
+        div.className = 'annuncio-card';
+        div.innerHTML = `
+          <div class="annuncio-titolo">${a.titolo}</div>
+          <div class="annuncio-data">${new Date(a.data_pubblicazione).toLocaleDateString()}</div>
+          <div>${a.descrizione}</div>
+          <div class="annuncio-actions">
+            <button class="modifica-btn" title="Modifica" onclick="modificaAnnuncio(${a.id}, '${encodeURIComponent(a.titolo)}', '${encodeURIComponent(a.descrizione)}')">✏️</button>
+            <button class="elimina-btn" title="Elimina" onclick="eliminaAnnuncio(${a.id})">✖</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    document.getElementById('annuncioForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        titolo: form.titolo.value,
+        descrizione: form.descrizione.value
+      };
+      const res = await fetch('backend/annunci.php?action=crea', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      form.reset();
+      caricaAnnunci();
+    });
+
+    async function eliminaAnnuncio(id) {
+      if (!confirm("Vuoi davvero eliminare questo annuncio?")) return;
+      await fetch('backend/annunci.php?action=elimina', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      });
+      caricaAnnunci();
+    }
+
+    function modificaAnnuncio(id, titolo, descrizione) {
+      titolo = decodeURIComponent(titolo);
+      descrizione = decodeURIComponent(descrizione);
+      const nuovoTitolo = prompt("Modifica il titolo dell'annuncio:", titolo);
+      if (nuovoTitolo === null) return;
+      const nuovaDescrizione = prompt("Modifica la descrizione dell'annuncio:", descrizione);
+      if (nuovaDescrizione === null) return;
+
+      fetch('backend/annunci.php?action=modifica', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, titolo: nuovoTitolo, descrizione: nuovaDescrizione })
+      }).then(() => caricaAnnunci());
+    }
+
+    document.getElementById('annuncioAIButton').onclick = function() {
+      document.getElementById('aiModal').style.display = 'flex';
+      aiChatLog.innerHTML = '';
+      aiChatInput.value = '';
+      aiChatState = { step: 0, azienda: '', ruolo: '', extra: {}, annuncio: '' };
+      appendAIMessage("assistant", "Ciao! Vuoi creare un annuncio con il mio aiuto. Come si chiama l'azienda?");
+    };
+
+    function chiudiAIModal() {
+      document.getElementById('aiModal').style.display = 'none';
+    }
+
+    const aiChatLog = document.getElementById('aiChatLog');
+    const aiChatInput = document.getElementById('aiChatInput');
+    const usaAnnuncioAI = document.getElementById('usaAnnuncioAI');
+    let aiChatState = { step: 0, azienda: '', ruolo: '', extra: {}, annuncio: '' };
+
+    aiChatInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        inviaAIMsg();
+      }
+    });
+
+    function appendAIMessage(sender, text) {
+      const div = document.createElement('div');
+      div.style.margin = "8px 0";
+      div.style.padding = "10px 16px";
+      div.style.borderRadius = "18px";
+      div.style.maxWidth = "90%";
+      div.style.background = sender === "assistant" ? "#ffb347" : "#e3e3e3";
+      div.style.color = "#1e3c72";
+      div.style.alignSelf = sender === "assistant" ? "flex-start" : "flex-end";
+      div.textContent = text;
+      aiChatLog.appendChild(div);
+      aiChatLog.scrollTop = aiChatLog.scrollHeight;
+    }
+
+    async function inviaAIMsg() {
+      const msg = aiChatInput.value.trim();
+      if (!msg) return;
+      appendAIMessage("user", msg);
+      aiChatInput.value = '';
+
+      if (aiChatState.step === 0) {
+        aiChatState.azienda = msg;
+        appendAIMessage("assistant", "Che ruolo stai cercando?");
+        aiChatState.step = 1;
+      } else if (aiChatState.step === 1) {
+        aiChatState.ruolo = msg;
+        appendAIMessage("assistant", "Vuoi aggiungere qualche requisito o dettaglio particolare? (oppure scrivi 'no')");
+        aiChatState.step = 2;
+        aiChatState.requisiti = ""; // inizializza i requisiti
+      } else if (aiChatState.step === 2) {
+        // Salva i requisiti/dettagli
+        if (!aiChatState.requisiti) aiChatState.requisiti = "";
+        if (msg.toLowerCase() !== 'no') {
+          aiChatState.requisiti += (aiChatState.requisiti ? "; " : "") + msg;
+          // Puoi chiedere se vuole aggiungerne altri:
+          appendAIMessage("assistant", "Vuoi aggiungere altri requisiti o dettagli? (scrivi 'no' per continuare)");
+          return; // resta nello step 2 finché non scrive 'no'
+        }
+        appendAIMessage("assistant", "Perfetto! Ora sto generando l'annuncio professionale...");
+        aiChatState.step = 3;
+        // Prompt IA con tutti i requisiti raccolti
+        const prompt = `
+Scrivi un annuncio di lavoro in italiano, massimo 400 caratteri, per l'azienda "${aiChatState.azienda}" che cerca un/una "${aiChatState.ruolo}".
+L'annuncio deve essere breve, diretto e focalizzato sul ruolo e sulle responsabilità principali, NON sulla storia dell'azienda.
+La sezione "Requisiti richiesti" deve essere in HTML, con il titolo in grassetto (<b>Requisiti richiesti</b>) e i requisiti come elenco puntato (<ul><li>...</li></ul>). Includi esattamente questi requisiti: ${aiChatState.requisiti || 'Nessuno'}.
+Non inserire indirizzi email, numeri di telefono o riferimenti a persone reali o fittizi.
+Non aggiungere blocchi di codice, né delimitatori come \`\`\`html o simili.
+Evita introduzioni lunghe sull'azienda, vai subito al sodo.
+Restituisci solo il testo HTML pronto da inserire in una pagina, senza altro.
+`;
+        appendAIMessage("assistant", "Sto pensando...");
+        try {
+          const res = await fetch('backend.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mode: 'annuncio_ai', prompt })
+          });
+          const data = await res.json();
+          aiChatState.annuncio = data.annuncio || data.message || '';
+          aiChatLog.innerHTML = '';
+          appendAIMessage("assistant", "Ecco l'annuncio generato:");
+          appendAIMessage("assistant", aiChatState.annuncio);
+          usaAnnuncioAI.style.display = 'block';
+        } catch (e) {
+          appendAIMessage("assistant", "Errore nella generazione dell'annuncio. Riprova.");
+        }
+      }
+    }
+
+    usaAnnuncioAI.onclick = function() {
+      // Inserisci l'annuncio nel form principale
+      document.querySelector('input[name="titolo"]').value = aiChatState.ruolo + " - " + aiChatState.azienda;
+      document.querySelector('textarea[name="descrizione"]').value = aiChatState.annuncio;
+      chiudiAIModal();
+      usaAnnuncioAI.style.display = 'none';
+    };
+
+    caricaAnnunci();
+  </script>
+</body>
+</html>

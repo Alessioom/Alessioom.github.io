@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Genera CV con AI</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .cvai-glass {
+      background: rgba(255,255,255,0.13);
+      border-radius: 28px;
+      box-shadow: 0 8px 40px #0005;
+      padding: 38px 0 28px 0;
+      max-width: 900px;
+      width: 98vw;
+      margin: 48px 0;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 1.2s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .ai-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #fff;
+      filter: drop-shadow(0 2px 12px #0004);
+      display: inline-block;
+      background: none;
+    }
+    h1 {
+      font-size: 2rem;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #ffb347, #ffcc33, #f7971e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 4px 24px #0006;
+    }
+    .subtitle {
+      font-size: 1.08rem;
+      color: #ffe082;
+      margin-bottom: 18px;
+      margin-top: 0;
+      letter-spacing: 0.5px;
+    }
+    .annuncio-selected {
+      background: rgba(255,255,255,0.18);
+      border-radius: 16px;
+      padding: 16px 18px 14px 18px;
+      margin-bottom: 18px;
+      color: #fff;
+      text-align: left;
+      position: relative;
+      box-shadow: 0 2px 12px #0002;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      animation: fadeIn 0.7s;
+      width: 90%;
+      max-width: 700px;
+    }
+    .annuncio-selected .annuncio-title {
+      font-size: 1.13rem;
+      font-weight: 700;
+      color: #ffe082;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
+    }
+    .annuncio-selected .annuncio-desc {
+      font-size: 1.02rem;
+      color: #fff;
+    }
+    .remove-annuncio-btn {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.3rem;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+    }
+    .remove-annuncio-btn:hover {
+      background: #ff5252;
+      color: #fff;
+    }
+    .chat-outer {
+      width: 90%;
+      max-width: 700px;
+      margin: 0 auto 18px auto;
+      background: rgba(255,255,255,0.10);
+      border-radius: 18px;
+      box-shadow: 0 2px 12px #0002;
+      display: flex;
+      flex-direction: column;
+      min-height: 420px;
+      max-height: 520px;
+      overflow: hidden;
+    }
+    .chat-container {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    /* Stile base per tutti i messaggi */
+    .message {
+      max-width: 70%;
+      padding: 12px 18px;
+      border-radius: 15px;
+      margin: 4px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    /* Messaggi dell'utente - a destra */
+    .user-message {
+      align-self: flex-end;
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #1e3c72;
+      border-bottom-right-radius: 5px;
+      margin-left: auto;
+    }
+    /* Messaggi dell'IA - a sinistra */
+    .ai-message {
+      align-self: flex-start;
+      background: rgba(255,255,255,0.9);
+      color: #1e3c72;
+      border-bottom-left-radius: 5px;
+      margin-right: auto;
+    }
+    .bubble {
+      display: inline-block;
+      padding: 14px 22px;
+      border-radius: 22px;
+      margin-bottom: 2px;
+      max-width: 70%;
+      word-break: break-word;
+      font-size: 1.08rem;
+      box-shadow: 0 2px 8px #0002;
+      position: relative;
+      animation: fadeIn 0.5s;
+      clear: both;
+    }
+    .bubble.user {
+      align-self: flex-end;
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #1e3c72;
+      text-align: right;
+      margin-left: auto;
+      border-bottom-right-radius: 6px;
+    }
+    .bubble.user:after {
+      content: "";
+      position: absolute;
+      right: -14px;
+      top: 18px;
+      border-width: 10px 0 10px 14px;
+      border-style: solid;
+      border-color: transparent transparent transparent #ffcc33;
+      filter: drop-shadow(0 2px 4px #0002);
+    }
+    .bubble.assistant {
+      align-self: flex-start;
+      background: rgba(255,255,255,0.93);
+      color: #1e3c72;
+      text-align: left;
+      margin-right: auto;
+      border-bottom-left-radius: 6px;
+    }
+    .bubble.assistant:after {
+      content: "";
+      position: absolute;
+      left: -14px;
+      top: 18px;
+      border-width: 10px 14px 10px 0;
+      border-style: solid;
+      border-color: transparent #fff transparent transparent;
+      filter: drop-shadow(0 2px 4px #0002);
+    }
+    .bubble.loading {
+      background: rgba(255,255,255,0.10);
+      color: #ffe082;
+      font-style: italic;
+      align-self: flex-start;
+    }
+    .bubble.error {
+      background: #ff5252;
+      color: #fff;
+      font-weight: bold;
+      align-self: flex-start;
+    }
+    .input-container {
+      display: flex;
+      gap: 10px;
+      margin: 0;
+      padding: 18px 18px 0 18px;
+      background: none;
+      align-items: center;
+    }
+    #chat-input {
+      flex: 1;
+      padding: 13px;
+      border-radius: 30px;
+      border: none;
+      font-size: 1.08rem;
+      background: rgba(255,255,255,0.18);
+      color: #1e3c72;
+      outline: none;
+      box-shadow: 0 2px 8px #0001;
+      transition: box-shadow 0.2s;
+    }
+    #chat-input:focus {
+      box-shadow: 0 4px 16px #0002;
+    }
+    #send-btn {
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      box-shadow: 0 4px 24px #0003;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #send-btn:hover, #send-btn:focus {
+      background: linear-gradient(90deg, #f7971e 0%, #ffb347 100%);
+      color: #1e3c72;
+      transform: scale(1.08);
+    }
+    .action-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 18px;
+      margin-bottom: 0;
+    }
+    .action-btn {
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #1e3c72;
+      border: none;
+      border-radius: 40px;
+      padding: 13px 28px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      box-shadow: 0 4px 24px #0003;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.3s;
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 1px;
+    }
+    .action-btn:hover, .action-btn:focus {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 8px 32px #0004;
+      background: linear-gradient(90deg, #f7971e 0%, #ffb347 100%);
+      color: #fff;
+    }
+    .footer {
+      margin-top: 30px;
+      color: #b2dfdb;
+      font-size: 0.98rem;
+      letter-spacing: 0.5px;
+      opacity: 0.8;
+      text-align: center;
+    }
+    @media (max-width: 900px) {
+      .cvai-glass { padding: 10px 0 10px 0; }
+      .chat-outer { width: 98vw; max-width: 100vw; }
+      .annuncio-selected { width: 98vw; max-width: 100vw; }
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.2rem; }
+      .ai-icon { font-size: 1.5rem; }
+      .chat-outer { min-height: 220px; max-height: 320px; }
+      .action-btn { padding: 10px 8px; font-size: 1rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="cvai-glass">
+    <div class="ai-icon" title="AI">🤖</div>
+    <h1>Genera il tuo CV con AI</h1>
+    <div class="subtitle">Chatta con l'assistente e crea il tuo curriculum personalizzato.</div>
+    <div id="annuncioContainer" style="display:none;">
+      <div class="annuncio-selected">
+        <button class="remove-annuncio-btn" title="Rimuovi annuncio" onclick="removeAnnuncio()" aria-label="Rimuovi annuncio">✖</button>
+        <div class="annuncio-title" id="annuncioTitle"></div>
+        <div class="annuncio-desc" id="annuncioDesc"></div>
+      </div>
+    </div>
+    <div class="chat-outer">
+      <div id="chatLog" class="chat-container"></div>
+      <div class="input-container">
+        <input type="text" id="chat-input" placeholder="Scrivi un messaggio..." autocomplete="off" />
+        <button id="send-btn" title="Invia messaggio" aria-label="Invia">➤</button>
+      </div>
+    </div>
+    <div class="action-btns">
+      <button class="action-btn" id="generateChatCVButton">📄 Genera PDF del CV</button>
+      <button class="action-btn" id="resetButton" onclick="location.reload()">🔄 Resetta chat</button>
+      <a href="#" id="viewPDFLink" class="action-btn" target="_blank" style="text-decoration:none;">👁️ Visualizza PDF</a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    // Mostra annuncio selezionato se presente
+    function updateAnnuncioBox() {
+      const annuncioContainer = document.getElementById('annuncioContainer');
+      const annuncioTitle = document.getElementById('annuncioTitle');
+      const annuncioDesc = document.getElementById('annuncioDesc');
+      let annuncioSelezionato = sessionStorage.getItem('annuncioSelezionato');
+      if (annuncioSelezionato) {
+        annuncioSelezionato = JSON.parse(annuncioSelezionato);
+        annuncioContainer.style.display = "block";
+        annuncioTitle.textContent = annuncioSelezionato.titolo;
+        annuncioDesc.textContent = annuncioSelezionato.descrizione;
+      } else {
+        annuncioContainer.style.display = "none";
+      }
+    }
+    function removeAnnuncio() {
+      sessionStorage.removeItem('annuncioSelezionato');
+      updateAnnuncioBox();
+    }
+    document.addEventListener('DOMContentLoaded', updateAnnuncioBox);
+  </script>
+</body>
+</html>

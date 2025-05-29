@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica il tuo CV Europass</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cv-glass {
+            background: rgba(255,255,255,0.13);
+            border-radius: 28px;
+            box-shadow: 0 8px 40px #0005;
+            padding: 38px 0 28px 0;
+            max-width: 900px;
+            width: 98vw;
+            margin: 48px 0;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            font-size: 2rem;
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ffb347, #ffcc33, #f7971e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 24px #0006;
+        }
+        .subtitle {
+            font-size: 1.08rem;
+            color: #ffe082;
+            margin-bottom: 18px;
+            margin-top: 0;
+            letter-spacing: 0.5px;
+        }
+        .form-section {
+            background: rgba(255,255,255,0.18);
+            border-radius: 16px;
+            padding: 18px 24px 18px 24px;
+            margin-bottom: 18px;
+            color: #fff;
+            box-shadow: 0 2px 12px #0002;
+            width: 90%;
+            max-width: 700px;
+            text-align: left;
+        }
+        .form-section h3 {
+            margin-top: 0;
+            color: #ffe082;
+            font-size: 1.15rem;
+        }
+        input[type="file"], input[type="text"], select {
+            border: none;
+            border-radius: 30px;
+            padding: 13px;
+            font-size: 1.08rem;
+            background: rgba(255,255,255,0.18);
+            color: #1e3c72;
+            outline: none;
+            box-shadow: 0 2px 8px #0001;
+            margin-bottom: 10px;
+            width: 100%;
+            transition: box-shadow 0.2s;
+        }
+        input[type="file"] {
+            padding: 10px;
+            background: rgba(255,255,255,0.25);
+        }
+        input[type="text"]:focus, select:focus {
+            box-shadow: 0 4px 16px #0002;
+        }
+        button {
+            padding: 13px 28px;
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+            color: #1e3c72;
+            border: none;
+            border-radius: 40px;
+            font-size: 1.08rem;
+            font-weight: 700;
+            box-shadow: 0 4px 24px #0003;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, background 0.3s;
+            outline: none;
+            margin-left: 10px;
+        }
+        button:hover, button:focus {
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 8px 32px #0004;
+            background: linear-gradient(90deg, #f7971e 0%, #ffb347 100%);
+            color: #fff;
+        }
+        .status {
+            color: #ffe082;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .section-selector {
+            margin-bottom: 10px;
+        }
+        .section-hint {
+            font-size: 0.98rem;
+            color: #ffe082;
+            margin-bottom: 6px;
+            margin-top: -8px;
+        }
+        .chat-box {
+            margin-top: 10px;
+            padding: 18px 10px 10px 10px;
+            background: rgba(255,255,255,0.10);
+            border-radius: 18px;
+            box-shadow: 0 2px 12px #0002;
+            min-height: 120px;
+            max-height: 260px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .message {
+            display: inline-block;
+            padding: 14px 22px;
+            border-radius: 22px;
+            max-width: 70%;
+            word-break: break-word;
+            font-size: 1.08rem;
+            box-shadow: 0 2px 8px #0002;
+            position: relative;
+            clear: both;
+        }
+        .message.user {
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+            color: #1e3c72;
+            align-self: flex-end;
+            text-align: right;
+            margin-left: auto;
+            border-bottom-right-radius: 6px;
+        }
+        .message.user:after {
+            content: "";
+            position: absolute;
+            right: -14px;
+            top: 18px;
+            border-width: 10px 0 10px 14px;
+            border-style: solid;
+            border-color: transparent transparent transparent #ffcc33;
+            filter: drop-shadow(0 2px 4px #0002);
+        }
+        .message.assistant {
+            background: rgba(255,255,255,0.93);
+            color: #1e3c72;
+            align-self: flex-start;
+            text-align: left;
+            margin-right: auto;
+            border-bottom-left-radius: 6px;
+        }
+        .message.assistant:after {
+            content: "";
+            position: absolute;
+            left: -14px;
+            top: 18px;
+            border-width: 10px 14px 10px 0;
+            border-style: solid;
+            border-color: transparent #fff transparent transparent;
+            filter: drop-shadow(0 2px 4px #0002);
+        }
+        .message.error {
+            background: #ff5252;
+            color: #fff;
+            font-weight: bold;
+            align-self: flex-start;
+        }
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        #pdfViewerContainer {
+            width: 90%;
+            max-width: 700px;
+            margin: 0 auto 18px auto;
+            background: rgba(255,255,255,0.10);
+            border-radius: 18px;
+            box-shadow: 0 2px 12px #0002;
+            padding: 10px;
+        }
+        iframe {
+            width: 100%;
+            height: 480px;
+            border: none;
+            background-color: white;
+            border-radius: 10px;
+        }
+        #debugOutput {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+            color: #222;
+        }
+        #toggleDebugBtn {
+            margin-top: 10px;
+            background-color: #999;
+            color: #fff;
+        }
+        .cv-sidebar {
+            position: fixed;
+            top: 60px;
+            right: 100px;
+            width: 320px;
+            background: rgba(255,255,255,0.13);
+            border-radius: 22px;
+            box-shadow: 0 4px 24px #0003;
+            padding: 24px 22px 18px 22px;
+            color: #fff;
+            z-index: 200;
+            font-size: 1.05em;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .cv-sidebar h3 {
+            color: #ffe082;
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: 1.18em;
+        }
+        .cv-sidebar ul {
+            padding-left: 18px;
+            margin: 0 0 10px 0;
+        }
+        .cv-sidebar li {
+            margin-bottom: 7px;
+        }
+        @media (max-width: 900px) {
+            .cv-glass { padding: 10px 0 10px 0; }
+            #pdfViewerContainer, .form-section { width: 98vw; max-width: 100vw; }
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.2rem; }
+            .chat-box { min-height: 60px; max-height: 120px; }
+            .form-section { padding: 10px 5px; }
+            .input-row { flex-direction: column; }
+        }
+        @media (max-width: 1200px) {
+            .cv-sidebar {
+                position: static;
+                width: 98vw;
+                margin: 0 auto 18px auto;
+                max-width: 500px;
+                box-shadow: 0 2px 12px #0002;
+            }
+        }
+        @media (max-width: 700px) {
+            .cv-sidebar {
+                font-size: 0.98em;
+                padding: 12px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+        <!-- Sidebar con parole chiave utili -->
+        <div class="cv-sidebar">
+            <h3>Parole chiave utili</h3>
+            <ul>
+                <li><b>aggiungi</b>: aggiungi nuove informazioni senza cancellare le precedenti</li>
+                <li><b>modifica</b>: modifica o sostituisci il contenuto esistente</li>
+                <li><b>inserisci</b>: inserisci una nuova voce</li>
+                <li><b>cancella</b>: elimina una voce dalla sezione</li>
+                <li><b>nuovo/nuova</b>: aggiungi una nuova esperienza, formazione, ecc.</li>
+            </ul>
+            <div style="margin-top:18px;font-size:0.98em;color:#ffe082;">
+                <b>Esempi:</b><br>
+                <i>aggiungi esperienza in Tim, Bari come programmatore dal 2018 al 2021</i><br>
+                <i>modifica la formazione inserendo la laurea in Informatica</i>
+            </div>
+            <div style="margin-top:18px;font-size:0.95em;color:#ffe082;">
+                <b>Consiglio:</b><br>
+                Usa <b>aggiungi</b> per non perdere le informazioni già presenti!
+            </div>
+        </div>
+    <div class="cv-glass">
+        <h1>Modifica il tuo Curriculum Vitae Europass</h1>
+        <div class="subtitle">Carica il tuo PDF, seleziona la sezione Europass e chiedi all'AI di modificarla secondo lo standard europeo!</div>
+
+        <!-- Caricamento PDF -->
+        <div class="form-section">
+            <h3>Carica il tuo CV (PDF):</h3>
+            <input type="file" id="pdfInput" accept="application/pdf">
+            <p class="status" id="uploadStatus"></p>
+        </div>
+
+        <!-- Visualizzazione del PDF -->
+        <div id="pdfViewerContainer">
+            <iframe id="pdfViewer" src=""></iframe>
+        </div>
+
+        
+        <!-- Chat per modifiche -->
+        <div class="form-section">
+            <h3>Chiedi modifiche al tuo CV Europass:</h3>
+            <div class="section-selector">
+                <label for="cvSection">Seleziona la sezione Europass da modificare:</label>
+                <select id="cvSection">
+                    <option value="nome_cognome">Informazioni personali</option>
+                    <option value="obiettivo">Posizione desiderata</option>
+                    <option value="esperienze" selected>Esperienza professionale</option>
+                    <option value="formazione">Istruzione e formazione</option>
+                    <option value="competenze">Competenze personali</option>
+                    <option value="lingue">Competenze linguistiche</option>
+                    <option value="certificazioni">Certificazioni e corsi</option>
+                    <option value="riassunto">Ulteriori informazioni</option>
+                </select>
+                <div class="section-hint" id="sectionHint"></div>
+            </div>
+            <div class="chat-box" id="chatBox"></div>
+            <div class="input-row">
+                <input type="text" id="userInput" placeholder="Scrivi la tua modifica in stile Europass...">
+                <button id="sendBtn" onclick="sendMessage()">Invia</button>
+            </div>
+        </div>
+
+
+        <!-- Area di debug (nascosta di default) -->
+        <div id="debugOutput"></div>
+        <button id="toggleDebugBtn" onclick="toggleDebug()">Mostra Debug</button>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const pdfFileName = urlParams.get('pdf');
+        if (pdfFileName) {
+            document.getElementById('pdfViewer').src = 'generated_cv/' + pdfFileName;
+        }
+
+        const pdfInput = document.getElementById('pdfInput');
+        const pdfViewer = document.getElementById('pdfViewer');
+        const chatBox = document.getElementById('chatBox');
+        const userInput = document.getElementById('userInput');
+        const uploadStatus = document.getElementById('uploadStatus');
+        const debugOutput = document.getElementById('debugOutput');
+        const cvSection = document.getElementById('cvSection');
+        const sectionHint = document.getElementById('sectionHint');
+
+        // Mappa delle sezioni con nomi leggibili e suggerimenti Europass
+        const sectionNames = {
+            'nome_cognome': 'Informazioni personali',
+            'obiettivo': 'Posizione desiderata',
+            'esperienze': 'Esperienza professionale',
+            'formazione': 'Istruzione e formazione',
+            'competenze': 'Competenze personali',
+            'lingue': 'Competenze linguistiche',
+            'certificazioni': 'Certificazioni e corsi',
+            'riassunto': 'Ulteriori informazioni'
+        };
+        const sectionHints = {
+            'nome_cognome': 'Nome, cognome, indirizzo, telefono, email, nazionalità, data di nascita.',
+            'obiettivo': 'Ruolo o posizione desiderata (es: Sviluppatore Web, Project Manager).',
+            'esperienze': 'Elenca le esperienze lavorative in ordine cronologico inverso.',
+            'formazione': 'Titoli di studio, corsi, istituti frequentati, date.',
+            'competenze': 'Competenze comunicative, organizzative, digitali, tecniche, artistiche.',
+            'lingue': 'Lingue conosciute e livello (es: Italiano madrelingua, Inglese B2).',
+            'certificazioni': 'Certificazioni, corsi extra, attestati.',
+            'riassunto': 'Altre informazioni utili, referenze, hobby, allegati.'
+        };
+
+        // Aggiorna il suggerimento quando cambia la sezione
+        cvSection.addEventListener('change', function() {
+            sectionHint.textContent = sectionHints[cvSection.value] || '';
+        });
+        // Mostra il suggerimento iniziale
+        sectionHint.textContent = sectionHints[cvSection.value] || '';
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.innerHTML = `<span style="color:${type === 'error' ? 'red' : 'blue'}">[${timestamp}] ${message}</span>`;
+            debugOutput.appendChild(entry);
+            debugOutput.scrollTop = debugOutput.scrollHeight;
+            console[type](message);
+        }
+
+        function toggleDebug() {
+            const btn = document.getElementById('toggleDebugBtn');
+            if (debugOutput.style.display === 'none') {
+                debugOutput.style.display = 'block';
+                btn.textContent = 'Nascondi Debug';
+            } else {
+                debugOutput.style.display = 'none';
+                btn.textContent = 'Mostra Debug';
+            }
+        }
+
+        let nomeFileCV = null;
+
+        // Gestisce il caricamento del PDF
+        pdfInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file && file.type === "application/pdf") {
+                const fileURL = URL.createObjectURL(file);
+                pdfViewer.src = fileURL;
+                uploadStatus.textContent = "PDF caricato con successo!";
+                nomeFileCV = "cv_data_" + file.name.replace(/\.pdf$/i, ".json");
+
+                const welcomeMsg = document.createElement('div');
+                welcomeMsg.className = 'message assistant';
+                welcomeMsg.textContent = "AI: CV caricato! Seleziona una sezione Europass e scrivi la modifica che vuoi, ad esempio: 'Aggiungi esperienza lavorativa come Sviluppatore presso XYZ dal 2022 al 2024'.";
+                chatBox.appendChild(welcomeMsg);
+                log("PDF caricato: " + file.name);
+
+                const formData = new FormData();
+                formData.append('pdf', file);
+
+                fetch('backend/upload_pdf.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        nomeFileCV = data.cv_file;
+                    }
+                });
+            } else {
+                alert("Per favore carica un file PDF valido.");
+                log("Tentativo di caricamento file non valido", "error");
+            }
+        });
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (message === "") return;
+
+            const selectedSection = cvSection.value;
+            const sectionDisplayName = sectionNames[selectedSection];
+
+            // Mostra il messaggio utente
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.textContent = "Tu: " + message + " [Sezione: " + sectionDisplayName + "]";
+            chatBox.appendChild(userMsg);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Mostra indicatore di caricamento
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message assistant';
+            loadingDiv.textContent = "AI: Sto elaborando...";
+            chatBox.appendChild(loadingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Recupera il testo attuale della sezione (se disponibile)
+            let testoAttuale = "";
+            try {
+                const cvData = await fetch('generated_cv/' + nomeFileCV)
+                    .then(res => res.json())
+                    .catch(() => ({}));
+                testoAttuale = cvData && cvData[selectedSection] ? cvData[selectedSection] : "";
+            } catch (e) { testoAttuale = ""; }
+
+            let promptEuropass = "";
+            const isAddRequest = /aggiungi|add|inserisci|nuovo|nuova/i.test(message);
+            const isModifyRequest = /modifica|cambia|sostituisci|aggiorna|correggi/i.test(message);
+
+            promptEuropass = `
+Questa è la sezione "${sectionDisplayName}" attuale del CV Europass:
+${testoAttuale ? testoAttuale : '[Sezione vuota]'}
+
+${isAddRequest ? 'AGGIUNGI questa nuova informazione a quelle esistenti sopra' : 
+  isModifyRequest ? 'MODIFICA/SOSTITUISCI il contenuto come richiesto' :
+  'AGGIUNGI questa nuova informazione mantenendo quelle esistenti'}
+
+Richiesta dell'utente: "${message}"
+
+ISTRUZIONI IMPORTANTI:
+1. ${isAddRequest ? 'MANTIENI TUTTO il contenuto esistente e AGGIUNGI la nuova informazione' : 
+    isModifyRequest ? 'Modifica solo quanto richiesto' : 
+    'MANTIENI le informazioni esistenti e aggiungi le nuove'}
+2. Usa un formato professionale adatto al CV Europass
+3. Organizza le informazioni in modo chiaro e cronologico (più recenti prima)
+4. NON usare placeholder o esempi
+5. NON inserire parentesi quadre o testo di esempio
+6. NON aggiungere commenti o spiegazioni
+7. Restituisci SOLO il testo finale pronto per il CV
+
+Per esperienze lavorative:
+- Usa il formato: "Periodo - Azienda, Città - Ruolo"
+- Sotto ogni esperienza, elenca brevemente le principali responsabilità
+
+Per competenze:
+- Elenca in modo chiaro e conciso
+- Raggruppa per tipologia se necessario
+
+Per formazione:
+- Usa il formato: "Periodo - Titolo - Istituto, Città"
+
+Scrivi in italiano e fornisci il testo pronto per essere inserito direttamente nel CV.`;
+
+            // Prepara i dati da inviare
+            const requestData = {
+                action: 'modifica_cv',
+                sezione: selectedSection,
+                modifica: promptEuropass,
+                usa_ia: true,
+                cv_file: nomeFileCV
+            };
+
+            console.log("Invio richiesta al server:", requestData);
+
+            fetch('backend/cv_editor.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.text())
+            .then(responseText => {
+                console.log("Risposta raw ricevuta:", responseText);
+
+                if (chatBox.contains(loadingDiv)) {
+                    chatBox.removeChild(loadingDiv);
+                }
+
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (jsonError) {
+                    console.error("Errore parsing JSON:", jsonError.message);
+
+                    const errorMsg = document.createElement('div');
+                    errorMsg.className = 'message assistant error';
+                    errorMsg.textContent = "AI: Si è verificato un errore nella risposta del server. La risposta non è in formato JSON valido.";
+                    chatBox.appendChild(errorMsg);
+
+                    debugOutput.style.display = 'block';
+                    document.getElementById('toggleDebugBtn').textContent = 'Nascondi Debug';
+                    return;
+                }
+
+                console.log("Dati JSON parsing completato:", data);
+
+                if (data.success) {
+                    const aiMsg = document.createElement('div');
+                    aiMsg.className = 'message assistant';
+                    aiMsg.textContent = "AI: " + data.risposta;
+
+                    if (data.contenuto_elaborato) {
+                        aiMsg.textContent += "\n\nEcco la sezione Europass aggiornata:\n\n" + data.contenuto_elaborato;
+                    }
+
+                    chatBox.appendChild(aiMsg);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+
+                    if (data.pdf_updated && data.updated_cv_path) {
+                        pdfViewer.src = data.updated_cv_path + '?' + new Date().getTime();
+                    }
+                } else {
+                    const errorMsg = document.createElement('div');
+                    errorMsg.className = 'message assistant error';
+                    errorMsg.textContent = "AI: Errore durante la modifica: " + (data.error || "errore sconosciuto");
+                    chatBox.appendChild(errorMsg);
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    console.error("Errore ricevuto dal server:", data.error || "errore sconosciuto");
+                }
+            })
+            .catch(fetchErr => {
+                if (chatBox.contains(loadingDiv)) {
+                    chatBox.removeChild(loadingDiv);
+                }
+
+                console.error("Errore fetch:", fetchErr.message);
+
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'message assistant error';
+                errorMsg.textContent = "AI: Errore nella comunicazione con il server: " + fetchErr.message;
+                chatBox.appendChild(errorMsg);
+                chatBox.scrollTop = chatBox.scrollHeight;
+
+                debugOutput.style.display = 'block';
+                document.getElementById('toggleDebugBtn').textContent = 'Nascondi Debug';
+            });
+
+            userInput.value = '';
+        }
+
+        userInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

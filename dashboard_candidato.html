@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Candidato</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .container {
+      background: rgba(255,255,255,0.10);
+      border-radius: 28px;
+      box-shadow: 0 8px 40px #0005;
+      padding: 48px 38px 38px 38px;
+      max-width: 800px;
+      width: 100%;
+      margin-top: 48px;
+      text-align: center;
+      position: relative;
+      animation: fadeIn 1.2s;
+    }
+    h1 {
+      font-size: 2.2rem;
+      background: linear-gradient(90deg, #ffb347, #ffcc33, #f7971e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 4px 24px #0006;
+      margin-bottom: 10px;
+      letter-spacing: 1.5px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: #ffe082;
+      margin-bottom: 28px;
+      margin-top: 0;
+      letter-spacing: 0.5px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 22px;
+      justify-content: center;
+      margin-bottom: 38px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    .main-btn {
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #1e3c72;
+      border: none;
+      border-radius: 40px;
+      padding: 22px 38px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      box-shadow: 0 4px 24px #0003;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.3s;
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      letter-spacing: 1px;
+      min-width: 180px;
+    }
+    .main-btn:hover, .main-btn:focus {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 8px 32px #0004;
+      background: linear-gradient(90deg, #f7971e 0%, #ffb347 100%);
+      color: #fff;
+    }
+    .section-title {
+      color: #ffe082;
+      margin-top: 36px;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+      text-align: left;
+      margin-bottom: 12px;
+    }
+    .cv-list, .annunci-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      justify-content: flex-start;
+      margin-bottom: 18px;
+    }
+    .cv-card, .annuncio-card {
+      background: rgba(255,255,255,0.18);
+      border-radius: 18px;
+      box-shadow: 0 2px 12px #0002;
+      color: #fff;
+      font-size: 1.08rem;
+      position: relative;
+      text-align: left;
+      padding: 22px 24px 18px 24px;
+      min-width: 220px;
+      max-width: 320px;
+      flex: 1 1 220px;
+      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .cv-card:hover, .annuncio-card:hover {
+      box-shadow: 0 6px 24px #0004;
+      transform: translateY(-2px) scale(1.01);
+      background: rgba(255,255,255,0.23);
+    }
+    .cv-title, .annuncio-title {
+      font-size: 1.13rem;
+      font-weight: 700;
+      color: #ffe082;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
+    }
+    .cv-date, .annuncio-date {
+      font-size: 0.93rem;
+      color: #b2dfdb;
+      margin-bottom: 4px;
+    }
+    .annuncio-card .annuncio-desc {
+      color: #fff;
+      font-size: 1.02rem;
+      margin-bottom: 0;
+    }
+
+    .buttons-container {
+      position: fixed;
+      right: 32px;
+      top: 5%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: row-reverse; /* Aggiunto questo */
+      gap: 12px;
+      z-index: 100;
+      width: auto;
+    }
+
+    .profile-btn {
+      margin-right: 0; /* Rimuovi il margin-right dal profile-btn dato che ora usiamo gap */
+    }
+
+    .profile-btn, .logout-btn {
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #1e3c72;
+      border: none;
+      border-radius: 40px;
+      padding: 18px 32px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 24px #0003;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .profile-btn:hover, .logout-btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #f7971e 0%, #ffb347 100%);
+      color: #fff;
+      box-shadow: 0 6px 28px #0005;
+    }
+
+    @media (max-width: 1200px) {
+      .buttons-container {
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        top: auto;
+        transform: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .buttons-container {
+        bottom: 16px;
+        right: 16px;
+      }
+      .profile-btn, .logout-btn {
+        padding: 14px 24px;
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .container { padding: 18px 6px 18px 6px; }
+      h1 { font-size: 1.3rem; }
+      .btn-group { flex-direction: column; gap: 16px; }
+      .cv-list, .annunci-list { flex-direction: column; }
+      .cv-card, .annuncio-card { min-width: 0; max-width: 100%; }
+    }
+    #welcomeBox {
+      width: 100%;
+      text-align: center;
+      margin-top: 28px;
+      margin-bottom: -18px;
+      padding: 0;
+    }
+    #welcomeBox span {
+      display: inline-block;
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #1e3c72;
+      font-size: 1.18rem;
+      font-weight: 700;
+      border-radius: 30px;
+      padding: 10px 32px;
+      box-shadow: 0 2px 12px #0002;
+      letter-spacing: 0.5px;
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+    @media (max-width: 600px) {
+      #welcomeBox span {
+        font-size: 1rem;
+        padding: 8px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="welcomeBox">
+    <span id="userName"></span>
+  </div>
+
+
+  <div class="buttons-container">
+    <button class="logout-btn" onclick="logout()">Logout</button>
+    <button class="profile-btn" onclick="location.href='profilo_candidato.html'">
+      👤 Profilo
+    </button>
+  </div>
+  <div class="container">
+    <h1>Area Candidato</h1>
+
+    <div class="subtitle">Gestisci i tuoi CV e scopri gli annunci disponibili.</div>
+    <div class="btn-group">
+      <button class="main-btn" onclick="generaCVAI()">
+        🤖 <span>Genera CV con AI</span>
+      </button>
+      <button class="main-btn" onclick="location.href='cv_manual.html'">
+        ✍️ <span>Inserimento manuale</span>
+      </button>
+      <button class="main-btn" onclick="location.href='cv_modifica.html'">
+        🛠️ <span>Modifica CV</span>
+      </button>
+    </div>
+    <div class="section-title">I tuoi CV</div>
+    <div class="cv-list" id="cvList"></div>
+    <div class="section-title">Annunci Disponibili</div>
+    <div class="annunci-list" id="annunciList"></div>
+
+<script>
+async function caricaCV() {
+    const container = document.getElementById('cvList');
+    try {
+        const res = await fetch('backend/utils/cv.php?action=miei');
+        if (!res.ok) {
+            throw new Error('Errore nella richiesta: ' + res.status);
+        }
+        const data = await res.json();
+        if (!Array.isArray(data) || !data.length) {
+            container.innerHTML = '<p style="color:#ffe082;">Non hai ancora creato CV.</p>';
+            return;
+        }
+        container.innerHTML = '';
+        data.forEach(cv => {
+            // Prendi solo il nome del file dal percorso
+            const nomePdf = cv.pdf_url ? cv.pdf_url.split('/').pop() : 'PDF non disponibile';
+            const pdfLink = cv.pdf_url ? `<a href="${cv.pdf_url}" target="_blank" style="color:#ffe082;text-decoration:underline;">${nomePdf}</a>` : nomePdf;
+
+            // AGGIUNGI la matita con link a cv_modifica.html?pdf=nomefile.pdf
+            const editLink = cv.pdf_url
+              ? `<a href="cv_modifica.html?pdf=${encodeURIComponent(nomePdf)}" title="Modifica CV" style="margin-left:10px;vertical-align:middle;display:inline-block;">
+                    <span style="font-size:1.3em;cursor:pointer;">✏️</span>
+                 </a>`
+              : '';
+
+            const div = document.createElement('div');
+            div.className = 'cv-card';
+            div.innerHTML = `
+                <div class="cv-title">
+                    ${cv.titolo || 'CV senza titolo'}
+                    ${editLink}
+                </div>
+                <div class="cv-date">Creato il: ${cv.data_creazione ? new Date(cv.data_creazione).toLocaleDateString() : 'Data non disponibile'}</div>
+                <div class="cv-pdf">PDF: ${pdfLink}</div>
+                <div class="cv-actions">
+                    <button onclick="eliminaCV(${cv.id})" class="delete-btn">❌ Elimina</button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    } catch (err) {
+        container.innerHTML = `<p style="color:#ffb347;">Errore nel caricamento dei CV: ${err.message}</p>`;
+        console.error('Errore caricamento CV:', err);
+    }
+}
+
+async function eliminaCV(id) {
+    if (!confirm('Sei sicuro di voler eliminare questo CV?')) return;
+    
+    await fetch('backend/cv.php?action=elimina', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+    });
+    
+    caricaCV();
+}
+
+// Carica i CV all'avvio
+caricaCV();
+</script>
+  </div>
+  <script>
+    function logout() {
+      fetch('backend/logout.php').then(() => window.location.href = 'index.html');
+    }
+    function generaCVAI() {
+      sessionStorage.removeItem('annuncioSelezionato');
+      window.location.href = 'cv_ai.html';
+    }
+
+    // Carica tutti gli annunci
+    async function caricaAnnunci() {
+      const res = await fetch('backend/annunci.php?action=tutti');
+      const data = await res.json();
+      const container = document.getElementById('annunciList');
+      container.innerHTML = '';
+      if (!data.length) {
+        container.innerHTML = '<p style="color:#ffe082;">Nessun annuncio disponibile.</p>';
+        return;
+      }
+      data.forEach(a => {
+        const div = document.createElement('div');
+        div.className = 'annuncio-card';
+        div.innerHTML = `
+          <div class="annuncio-title">${a.titolo}</div>
+          <div class="annuncio-date">${new Date(a.data_pubblicazione).toLocaleDateString()}</div>
+          <div class="annuncio-desc">${a.descrizione}</div>
+        `;
+        div.onclick = function() {
+          sessionStorage.setItem('annuncioSelezionato', JSON.stringify({
+            titolo: a.titolo,
+            descrizione: a.descrizione
+          }));
+          window.location.href = 'cv_ai.html';
+        };
+        container.appendChild(div);
+      });
+    }
+
+    caricaAnnunci();
+  </script>
+  <script>
+
+async function mostraNomeCandidato() {
+    try {
+        const res = await fetch('backend/utente.php');
+        const data = await res.json();
+        if (data && data.nome) {
+            document.getElementById('userName').textContent = `Benvenuto, ${data.nome}!`;
+        } else {
+            document.getElementById('userName').textContent = '';
+        }
+    } catch (e) {
+        document.getElementById('userName').textContent = '';
+    }
+}
+mostraNomeCandidato();
+</script>
+</body>
+</html>

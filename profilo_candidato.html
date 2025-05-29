@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Profilo Candidato</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-container {
+            background: rgba(255,255,255,0.13);
+            border-radius: 28px;
+            box-shadow: 0 8px 40px #0005;
+            padding: 38px;
+            max-width: 500px;
+            width: 90%;
+            backdrop-filter: blur(8px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #ffe082;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffe082;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.18);
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.25);
+        }
+        .btn {
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+            color: #1e3c72;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, #f7971e 0%, #ffb347 100%);
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .success {
+            background: rgba(76, 175, 80, 0.3);
+            color: #4CAF50;
+        }
+        .error {
+            background: rgba(244, 67, 54, 0.3);
+            color: #f44336;
+        }
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+            color: #1e3c72;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #badgesSection {
+            margin-bottom: 32px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        #badgesList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #ffe082;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .badge:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+        #badgeModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(30,60,114,0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        #badgeModalContent {
+            background: rgba(255,255,255,0.97);
+            border-radius: 18px;
+            max-width: 340px;
+            width: 95vw;
+            padding: 28px 18px;
+            box-shadow: 0 8px 40px #0007;
+            position: relative;
+        }
+        #badgeModalTitle {
+            color: #1e3c72;
+            margin-top: 0;
+        }
+        #badgeModalBody {
+            color: #1e3c72;
+            margin-bottom: 18px;
+        }
+        #deleteBadgeBtn {
+            background: #f44336;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="location.href='dashboard_candidato.html'">← Indietro</button>
+    
+    <div class="profile-container">
+        <div id="badgesSection">
+            <h2 style="color:#ffe082;text-align:center;">Le tue mini-certificazioni</h2>
+            <div id="badgesList" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:center;"></div>
+            <button class="btn" onclick="location.href='scegli_quiz.html'" style="margin-top:24px;">
+                🎮 Fai un quiz e ottieni una mini-certificazione!
+            </button>
+        </div>
+        <h1>Il tuo profilo</h1>
+        <form id="profileForm">
+            <div class="form-group">
+                <label for="nome">Nome e Cognome</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Nuova Password (lascia vuoto per non modificare)</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Conferma Nuova Password</label>
+                <input type="password" id="confirm_password" name="confirm_password">
+            </div>
+            <button type="submit" class="btn">Salva Modifiche</button>
+        </form>
+        <div id="message" class="message" style="display: none;"></div>
+    </div>
+
+    <div id="badgeModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,60,114,0.85);z-index:1000;align-items:center;justify-content:center;">
+      <div id="badgeModalContent" style="background:rgba(255,255,255,0.97);border-radius:18px;max-width:340px;width:95vw;padding:28px 18px;box-shadow:0 8px 40px #0007;position:relative;">
+        <button onclick="closeBadgeModal()" style="position:absolute;top:10px;right:18px;font-size:1.3em;background:none;border:none;cursor:pointer;">✖</button>
+        <h2 id="badgeModalTitle" style="color:#1e3c72;margin-top:0;"></h2>
+        <div id="badgeModalBody" style="color:#1e3c72;margin-bottom:18px;"></div>
+        <button id="deleteBadgeBtn" class="btn" style="background:#f44336;color:#fff;">Elimina certificazione</button>
+      </div>
+    </div>
+
+    <script>
+        let selectedBadge = null;
+        let selectedUserId = null;
+
+        // Carica i dati del profilo al caricamento della pagina
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('backend/profilo_candidato.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('nome').value = data.user.nome || '';
+                    document.getElementById('email').value = data.user.email || '';
+
+                    // Carica le mini-certificazioni
+                    loadBadges(data.user.id);
+                }
+            } catch (error) {
+                showMessage('Errore nel caricamento dei dati', false);
+            }
+        });
+
+        // Gestione del form
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirm_password = document.getElementById('confirm_password').value;
+            
+            if (password && password !== confirm_password) {
+                showMessage('Le password non coincidono', false);
+                return;
+            }
+
+            const formData = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                password: password // se vuoto, il backend non lo modificherà
+            };
+
+            try {
+                const response = await fetch('backend/profilo_candidato.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showMessage('Profilo aggiornato con successo!', true);
+                    if (password) {
+                        document.getElementById('password').value = '';
+                        document.getElementById('confirm_password').value = '';
+                    }
+                } else {
+                    showMessage(data.error || 'Errore nell\'aggiornamento del profilo', false);
+                }
+            } catch (error) {
+                showMessage('Errore nella comunicazione con il server', false);
+            }
+        });
+
+        function showMessage(text, isSuccess) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${isSuccess ? 'success' : 'error'}`;
+            messageDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        async function loadBadges(userId) {
+            try {
+                const response = await fetch(`backend/carica_badges.php?user_id=${userId}`);
+                const data = await response.json();
+                
+                const badgesList = document.getElementById('badgesList');
+                badgesList.innerHTML = '';
+
+                if (data.success && data.badges.length > 0) {
+                    data.badges.forEach((badge, idx) => {
+                        const badgeElement = document.createElement('div');
+                        badgeElement.className = 'badge';
+                        badgeElement.textContent = badge.nome;
+                        badgeElement.style.cursor = "pointer";
+                        badgeElement.onclick = () => showBadgeDetails(badge, userId);
+                        badgesList.appendChild(badgeElement);
+                    });
+                } else {
+                    badgesList.innerHTML = '<span style="color:#fff;">Nessuna mini-certificazione ottenuta.</span>';
+                }
+            } catch (error) {
+                console.error('Errore nella comunicazione con il server per il caricamento delle mini-certificazioni');
+            }
+        }
+
+        function showBadgeDetails(badge, userId) {
+            selectedBadge = badge;
+            selectedUserId = userId;
+            document.getElementById('badgeModalTitle').textContent = badge.nome;
+            document.getElementById('badgeModalBody').innerHTML = `
+                <b>Descrizione:</b> ${badge.descrizione || '-'}<br>
+                <b>Ente:</b> ${badge.ente || '-'}<br>
+                <b>Data:</b> ${badge.data || '-'}
+            `;
+            document.getElementById('badgeModal').style.display = 'flex';
+        }
+
+        function closeBadgeModal() {
+            document.getElementById('badgeModal').style.display = 'none';
+            selectedBadge = null;
+            selectedUserId = null;
+        }
+
+        document.getElementById('deleteBadgeBtn').onclick = async function() {
+            if (!selectedBadge) return;
+            if (!confirm('Sei sicuro di voler eliminare questa certificazione?')) return;
+            try {
+                const res = await fetch('backend/elimina_certificazione.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        nome: selectedBadge.nome
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    closeBadgeModal();
+                    loadBadges(selectedUserId);
+                } else {
+                    alert('Errore: ' + (data.error || 'Impossibile eliminare la certificazione.'));
+                }
+            } catch (e) {
+                alert('Errore di comunicazione col server.');
+            }
+        };
+    </script>
+</body>
+</html>

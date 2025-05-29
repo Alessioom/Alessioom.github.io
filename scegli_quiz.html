@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Scegli il tuo quiz</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .quiz-select-container {
+            background: rgba(255,255,255,0.13);
+            border-radius: 28px;
+            box-shadow: 0 8px 40px #0005;
+            padding: 38px;
+            max-width: 400px;
+            width: 90%;
+            backdrop-filter: blur(8px);
+            text-align: center;
+        }
+        h1 {
+            color: #ffe082;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 20px;
+            border: none;
+            margin-bottom: 18px;
+            font-size: 1.1rem;
+        }
+        .btn {
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+            color: #1e3c72;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, #f7971e 0%, #ffb347 100%);
+        }
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+            color: #1e3c72;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="location.href='profilo_candidato.html'">← Indietro</button>
+    <div class="quiz-select-container">
+        <h1>Scegli la categoria del quiz</h1>
+        <select id="categoria">
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="javascript">JavaScript</option>
+            <option value="python">Python</option>
+            <option value="inglese">Inglese</option>
+            <option value="soft skill">Soft Skill</option>
+            <option value="altro">Altro (specifica sotto)</option>
+        </select>
+        <input type="text" id="argomento" placeholder="Se scegli 'Altro', scrivi qui l'argomento">
+        <button class="btn" onclick="generaQuiz()">Genera quiz</button>
+        <div id="status" style="margin-top:18px;color:#ffe082;"></div>
+    </div>
+    <script>
+        function generaQuiz() {
+            const categoria = document.getElementById('categoria').value;
+            let argomento = categoria;
+            if (categoria === 'altro') {
+                argomento = document.getElementById('argomento').value.trim();
+                if (!argomento) {
+                    document.getElementById('status').textContent = "Specifica l'argomento!";
+                    return;
+                }
+            }
+            localStorage.setItem('quiz_argomento', argomento); // salva l'argomento scelto
+            window.location.href = 'quiz.html';
+        }
+    </script>
+</body>
+</html>
