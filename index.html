@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Benvenuto su Generatore di CV</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .welcome-box {
+      background: rgba(255,255,255,0.10);
+      border-radius: 28px;
+      box-shadow: 0 4px 32px #0003;
+      padding: 54px 38px 38px 38px;
+      max-width: 480px;
+      text-align: center;
+      animation: fadeIn 1.2s;
+      position: relative;
+    }
+    .logo {
+      font-size: 3.2rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #ffb347, #ffcc33, #f7971e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+    h1 {
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      background: linear-gradient(90deg, #ffb347, #ffcc33, #f7971e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 4px 24px #0006;
+    }
+    p {
+      font-size: 1.18rem;
+      color: #e0e0e0;
+      margin-bottom: 36px;
+      margin-top: 0;
+      line-height: 1.6;
+    }
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 30px;
+      margin-top: 10px;
+    }
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.08rem;
+      color: #ffe082;
+      justify-content: center;
+    }
+    .feature-icon {
+      font-size: 1.3rem;
+      color: #ffcc33;
+    }
+    .btn-group {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin-top: 18px;
+    }
+    .main-btn {
+      background: linear-gradient(90deg, #ffb347 0%, #ffcc33 100%);
+      color: #1e3c72;
+      border: none;
+      border-radius: 40px;
+      padding: 16px 38px;
+      font-size: 1.15rem;
+      font-weight: 700;
+      box-shadow: 0 4px 24px #0003;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.3s;
+      outline: none;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .main-btn:hover, .main-btn:focus {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 8px 32px #0004;
+      background: linear-gradient(90deg, #f7971e 0%, #ffb347 100%);
+      color: #fff;
+    }
+    .footer {
+      margin-top: 40px;
+      color: #b2dfdb;
+      font-size: 0.98rem;
+      letter-spacing: 0.5px;
+      opacity: 0.8;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      .welcome-box { padding: 28px 8px 24px 8px; }
+      h1 { font-size: 1.3rem; }
+      .logo { font-size: 2rem; }
+      .btn-group { flex-direction: column; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-box">
+    <div class="logo">
+
+      <span>Tinder4Business</span>
+    </div>
+    <h1>Benvenuto!</h1>
+    <p>
+      Il portale intelligente per creare, modificare e gestire Curriculum Vitae e Annunci di lavoro.<br>
+      <span style="color:#ffe082;">Semplice, veloce, professionale.</span>
+    </p>
+    <div class="features">
+      <div class="feature" style="align-items: baseline;"><span class="feature-icon" style="line-height: 1;">👤</span> Candidati: genera CV con AI, manualmente o da annuncio</div>
+      <div class="feature"><span class="feature-icon">💼</span> Recruiter: pubblica e gestisci i tuoi annunci</div>
+      <div class="feature"><span class="feature-icon">🔒</span> Tutto sicuro e personale</div>
+    </div>
+    <div class="btn-group">
+      <button class="main-btn" onclick="location.href='login.html'">🟢  Login</button>
+      <button class="main-btn" onclick="location.href='register.html'">📝 Registrati</button>
+    </div>
+  </div>
+  <div class="footer">
+    &copy; 2025 Tinder4Business &middot; Powered by Alessio Mele
+    <br>
+    Progetto di tesi triennale in Informatica e Tecnologie per la Produzione del Software &ndash; Università degli Studi di Bari
+  </div>
+</body>
+</html>
